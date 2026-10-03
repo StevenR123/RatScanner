@@ -52,6 +52,27 @@
                 </MudStack>
             </MudPaper>
         </MudItem>
+        <MudItem xs="12">
+            <MudPaper Class="align-center justify-center pa-2 mx-2 mb-2" Elevation="2">
+                <MudStack Spacing="0" Class="pa-0 ma-0">
+                    <MudCheckBox @bind-Checked="@SettingsVM.EnableTextScan" Label="@Localizer["EnableTextScan"]" Dense="true" Size="Size.Small" Class="pa-0 ma-0"></MudCheckBox>
+                </MudStack>
+            </MudPaper>
+        </MudItem>
+        <MudItem xs="12">
+            <MudPaper Class="align-center justify-center pa-2 mx-2 mb-2" Elevation="2">
+                <MudStack Spacing="0" Justify="Justify.SpaceBetween" AlignItems="AlignItems.Center" Row="true">
+                    <MudItem>
+                        <MudText>
+                            @Localizer["TextScanHotkey"]
+                        </MudText>
+                    </MudItem>
+                    <MudItem>
+                        <HotkeySelector Hotkey="@SettingsVM.TextScanHotkey"></HotkeySelector>
+                    </MudItem>
+                </MudStack>
+            </MudPaper>
+        </MudItem>
     </MudGrid>
 </div>
 

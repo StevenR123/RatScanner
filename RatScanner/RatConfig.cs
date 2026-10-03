@@ -72,6 +72,15 @@ internal static class RatConfig {
 		internal static bool UseCachedIcons = true;
 	}
 
+	// Text Scan options
+	internal static class TextScan {
+		internal static bool Enable = true;
+		internal static Hotkey Hotkey = new(new[] { Key.LeftCtrl, Key.V }.ToList());
+		internal static int TextWidth => (int)(160 * GameScale);
+		internal static int TextHeight => (int)(36 * GameScale);
+		internal static float MinConfidence = 0.65f;
+	}
+
 	// ToolTip options
 	internal static class ToolTip {
 		internal static string DigitGroupingSymbol = ".";
@@ -201,6 +210,10 @@ internal static class RatConfig {
 		IconScan.Hotkey = config.ReadHotkey(nameof(IconScan.Hotkey), IconScan.Hotkey);
 		IconScan.UseCachedIcons = config.ReadBool(nameof(IconScan.UseCachedIcons), IconScan.UseCachedIcons);
 
+		config.Section = nameof(TextScan);
+		TextScan.Enable = config.ReadBool(nameof(TextScan.Enable), TextScan.Enable);
+		TextScan.Hotkey = config.ReadHotkey(nameof(TextScan.Hotkey), TextScan.Hotkey);
+
 		config.Section = nameof(ToolTip);
 		ToolTip.Duration = config.ReadInt(nameof(ToolTip.Duration), ToolTip.Duration);
 		ToolTip.DigitGroupingSymbol = config.ReadString(nameof(ToolTip.DigitGroupingSymbol), ToolTip.DigitGroupingSymbol);
@@ -269,6 +282,10 @@ internal static class RatConfig {
 		config.WriteBool(nameof(IconScan.ScanRotatedIcons), IconScan.ScanRotatedIcons);
 		config.WriteHotkey(nameof(IconScan.Hotkey), IconScan.Hotkey);
 		config.WriteBool(nameof(IconScan.UseCachedIcons), IconScan.UseCachedIcons);
+
+		config.Section = nameof(TextScan);
+		config.WriteBool(nameof(TextScan.Enable), TextScan.Enable);
+		config.WriteHotkey(nameof(TextScan.Hotkey), TextScan.Hotkey);
 
 		config.Section = nameof(ToolTip);
 		config.WriteInt(nameof(ToolTip.Duration), ToolTip.Duration);

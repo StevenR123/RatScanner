@@ -26,6 +26,8 @@
   "ScanRotatedIcons": "Analyser les icônes pivotées",
   "UseCachedIcons": "Utiliser les icônes en cache",
   "IconScanHotkey": "Raccourci de l'analyse d'icônes",
+  "EnableTextScan": "Enable Text Scan",
+  "TextScanHotkey": "Text Scan Hotkey",
   "OverlaySettingsTitle": "Paramètres de superposition",
   "EnableSearchOverlay": "Activer la superposition de recherche",
   "BlurBehindSearch": "Flouter l'arrière-plan",

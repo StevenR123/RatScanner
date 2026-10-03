@@ -26,6 +26,8 @@
   "ScanRotatedIcons": "Scan Rotated Icons",
   "UseCachedIcons": "Use Cached Icons",
   "IconScanHotkey": "Icon Scan Hotkey",
+  "EnableTextScan": "Enable Text Scan",
+  "TextScanHotkey": "Text Scan Hotkey",
   "OverlaySettingsTitle": "Overlay Settings",
   "EnableSearchOverlay": "Enable Search Overlay",
   "BlurBehindSearch": "Blur Behind Search",

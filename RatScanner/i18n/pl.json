@@ -26,6 +26,8 @@
   "ScanRotatedIcons": "Skanuj obrócone ikony",
   "UseCachedIcons": "Używaj ikon z pamięci podr.",
   "IconScanHotkey": "Skrót skanowania ikon",
+  "EnableTextScan": "Enable Text Scan",
+  "TextScanHotkey": "Text Scan Hotkey",
   "OverlaySettingsTitle": "Ustawienia nakładki",
   "EnableSearchOverlay": "Włącz nakładkę wyszukiwania",
   "BlurBehindSearch": "Rozmyj tło wyszukiwania",

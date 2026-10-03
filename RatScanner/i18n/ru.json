@@ -26,6 +26,8 @@
   "ScanRotatedIcons": "Сканировать повернутые иконки",
   "UseCachedIcons": "Использовать кэш иконок",
   "IconScanHotkey": "Горячая клавиша сканера иконок",
+  "EnableTextScan": "Enable Text Scan",
+  "TextScanHotkey": "Text Scan Hotkey",
   "OverlaySettingsTitle": "Настройки оверлея",
   "EnableSearchOverlay": "Включить оверлей поиска",
   "BlurBehindSearch": "Размытие позади поиска",

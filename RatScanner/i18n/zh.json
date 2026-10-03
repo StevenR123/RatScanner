@@ -26,6 +26,8 @@
   "ScanRotatedIcons": "扫描旋转图标",
   "UseCachedIcons": "使用缓存图标",
   "IconScanHotkey": "图标扫描快捷键",
+  "EnableTextScan": "Enable Text Scan",
+  "TextScanHotkey": "Text Scan Hotkey",
   "OverlaySettingsTitle": "悬浮层设置",
   "EnableSearchOverlay": "启用搜索悬浮层",
   "BlurBehindSearch": "搜索背景虚化",

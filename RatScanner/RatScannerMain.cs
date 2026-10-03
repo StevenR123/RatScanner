@@ -46,6 +46,14 @@ public class RatScannerMain : INotifyPropertyChanged {
 	/// </remarks>
 	internal static object IconScanLock = new();
 
+	/// <summary>
+	/// Lock for text scanning
+	/// </summary>
+	/// <remarks>
+	/// Lock order: 2
+	/// </remarks>
+	internal static object TextScanLock = new();
+
 	public TarkovTrackerDB TarkovTrackerDB;
 
 	internal RatEyeEngine RatEyeEngine;
@@ -306,6 +314,33 @@ public class RatScannerMain : INotifyPropertyChanged {
 			ItemIconScan tempIconScan = new(icon, toolTipPosition, RatConfig.ToolTip.Duration);
 
 			ItemScans.Enqueue(tempIconScan);
+			RefreshOverlay();
+		}
+	}
+
+	/// <summary>
+	/// Perform a text scan at the given position by reading the short name text
+	/// rendered on top of the item cell
+	/// </summary>
+	/// <param name="position">Position on the screen at which to perform the scan</param>
+	internal void TextScan(Vector2 position) {
+		lock (TextScanLock) {
+			Logger.LogDebug("Text scanning at: " + position);
+
+			int sizeWidth = RatConfig.TextScan.TextWidth;
+			int sizeHeight = RatConfig.TextScan.TextHeight;
+
+			Vector2 screenshotPosition = position - new Vector2(sizeWidth / 2, sizeHeight / 2);
+			Bitmap screenshot = GetScreenshot(screenshotPosition, new Size(sizeWidth, sizeHeight));
+
+			string text = TextScanProcessor.Read(screenshot, RatConfig.NameScan.Language);
+			if (string.IsNullOrWhiteSpace(text)) return;
+
+			var item = TextScanProcessor.FindBestMatch(text, RatConfig.TextScan.MinConfidence, out float confidence);
+			if (item == null) return;
+
+			ItemTextScan tempTextScan = new(item, confidence, position, RatConfig.ToolTip.Duration);
+			ItemScans.Enqueue(tempTextScan);
 			RefreshOverlay();
 		}
 	}
