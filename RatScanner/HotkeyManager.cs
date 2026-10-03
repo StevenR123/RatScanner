@@ -14,7 +14,7 @@ internal class HotkeyManager {
 
 	internal ActiveHotkey NameScanHotkey;
 	internal ActiveHotkey IconScanHotkey;
-	internal ActiveHotkey TextScanHotkey;
+	internal ActiveHotkey TooltipScanHotkey;
 	internal ActiveHotkey OpenInteractableOverlayHotkey;
 	internal ActiveHotkey CloseInteractableOverlayHotkey;
 
@@ -37,7 +37,7 @@ internal class HotkeyManager {
 	[MemberNotNull(
 		nameof(NameScanHotkey),
 		nameof(IconScanHotkey),
-		nameof(TextScanHotkey),
+		nameof(TooltipScanHotkey),
 		nameof(OpenInteractableOverlayHotkey),
 		nameof(CloseInteractableOverlayHotkey))
 	]
@@ -48,7 +48,7 @@ internal class HotkeyManager {
 		Hotkey nameScanHotkey = new(null, new[] { MouseButton.Left });
 		NameScanHotkey = new ActiveHotkey(nameScanHotkey, OnNameScanHotkey, ref NameScan.Enable);
 		IconScanHotkey = new ActiveHotkey(IconScan.Hotkey, OnIconScanHotkey, ref IconScan.Enable);
-		TextScanHotkey = new ActiveHotkey(TextScan.Hotkey, OnTextScanHotkey, ref TextScan.Enable);
+		TooltipScanHotkey = new ActiveHotkey(TooltipScan.Hotkey, OnTooltipScanHotkey, ref TooltipScan.Enable);
 		OpenInteractableOverlayHotkey = new ActiveHotkey(OverlayC.Search.Hotkey, OnOpenInteractableOverlayHotkey, ref OverlayC.Search.Enable);
 		CloseInteractableOverlayHotkey = new ActiveHotkey(new Hotkey(new[] { Key.Escape }), OnCloseInteractableOverlayHotkey);
 	}
@@ -59,7 +59,7 @@ internal class HotkeyManager {
 	internal void UnregisterHotkeys() {
 		NameScanHotkey?.Dispose();
 		IconScanHotkey?.Dispose();
-		TextScanHotkey?.Dispose();
+		TooltipScanHotkey?.Dispose();
 		OpenInteractableOverlayHotkey?.Dispose();
 	}
 
@@ -94,8 +94,8 @@ internal class HotkeyManager {
 		Wrap(() => RatScannerMain.Instance.IconScan(UserActivityHelper.GetMousePosition()));
 	}
 
-	private void OnTextScanHotkey(object? sender, KeyUpEventArgs e) {
-		Wrap(() => RatScannerMain.Instance.TextScan(UserActivityHelper.GetMousePosition()));
+	private void OnTooltipScanHotkey(object? sender, KeyUpEventArgs e) {
+		Wrap(() => RatScannerMain.Instance.TooltipScan(UserActivityHelper.GetMousePosition()));
 	}
 
 	private void OnOpenInteractableOverlayHotkey(object? sender, KeyUpEventArgs e) {

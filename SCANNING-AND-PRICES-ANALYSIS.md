@@ -57,23 +57,27 @@ Flow in [RatScannerMain.IconScan](RatScanner/RatScannerMain.cs#L286):
    — effectively only rejects a confidence of exactly `0`; the configured `0.8` threshold is ignored.
 4. Builds an `ItemIconScan`, enqueues it, repaints.
 
-### 2.4 Text scan (Ctrl + V) — implemented
+### 2.4 Tooltip scan (Ctrl + V) — implemented
 
-Flow in [RatScannerMain.TextScan](RatScanner/RatScannerMain.cs#L326):
+Flow in [RatScannerMain.TooltipScan](RatScanner/RatScannerMain.cs#L326):
 
-1. Captures a small `120 × 30px` (× scale) strip centred on the cursor — no grid parsing.
-2. [TextScanProcessor.cs](RatScanner/Scan/TextScanProcessor.cs) upscales the strip 3×, binarizes it with an
-   Otsu threshold, and OCRs it with Tesseract (same bender `traineddata` and `ToISO3Code()` language mapping
-   as name scan).
-3. The OCR text is sanitized (`CyrillicToLatin`, `I`→`T`, lowercase) and matched against `Item.ShortName`
-   using normalized Levenshtein similarity, with a token-level fallback for neighbouring-cell leakage.
-4. A result is only shown if the similarity is `>= TextScan.MinConfidence` (0.65); otherwise the scan is
+1. Captures a tight `340 × 60px` (× scale) window above the cursor, biased to the right (only ~40px extend
+   left of the cursor). Near the right screen edge the window is pushed left by exactly the amount the screen
+   blocks, matching how the tooltip itself shifts left there.
+2. [TooltipScanProcessor.cs](RatScanner/Scan/TooltipScanProcessor.cs) locates the tooltip — the pure-black
+   box (`<10` grey, darker than the surrounding UI) that contains bright text — then crops its text region.
+3. The text is binarized with a fixed threshold (text is light grey on pure black), lightly dilated, upscaled
+   4×, and OCR'd with Tesseract (same bender `traineddata` and `ToISO3Code()` language mapping as name scan).
+   Multi-line (wrapped) names are read top-to-bottom via `SingleBlock` segmentation.
+4. The OCR text is sanitized (`CyrillicToLatin`, lowercase) and matched against both `Item.Name` and
+   `Item.ShortName` using normalized Levenshtein similarity with confusion-folding (`I/T`, `0/O`, etc.).
+5. A result is only shown if the similarity is `>= TooltipScan.MinConfidence` (0.65); otherwise the scan is
    silently dropped (still subject to the silent-failure concern in 3.2).
-5. The match is wrapped in an [ItemTextScan](RatScanner/Scan/ItemTextScan.cs) and enqueued into the same
+6. The match is wrapped in an [ItemTooltipScan](RatScanner/Scan/ItemTooltipScan.cs) and enqueued into the same
    tooltip/overlay pipeline as name/icon scans.
 
-Config lives in [RatConfig.TextScan](RatScanner/RatConfig.cs#L73) (enable flag + hotkey, persisted), is wired
-through [HotkeyManager.cs](RatScanner/HotkeyManager.cs), and is exposed in
+Config lives in [RatConfig.TooltipScan](RatScanner/RatConfig.cs#L75) (enable flag + hotkey, persisted), is wired
+through [HotkeyManager.cs](RatScanner/HotkeyManager.cs), and is exposed at the top of
 [SettingsScanning.razor](RatScanner/Pages/App/Settings/SettingsScanning.razor).
 
 ---
@@ -466,7 +470,7 @@ Per-item task/hideout memoisation; caliber index; off-thread OCR; RatEye databas
 | Scan orchestration | [RatScannerMain.cs](RatScanner/RatScannerMain.cs) |
 | Hotkey triggers | [HotkeyManager.cs](RatScanner/HotkeyManager.cs), [ActiveHotkey.cs](RatScanner/ActiveHotkey.cs) |
 | Scan results queue | [ItemQueue.cs](RatScanner/Scan/ItemQueue.cs), [ItemScan.cs](RatScanner/Scan/ItemScan.cs) |
-| Text scan (new) | [TextScanProcessor.cs](RatScanner/Scan/TextScanProcessor.cs), [ItemTextScan.cs](RatScanner/Scan/ItemTextScan.cs) |
+| Tooltip scan (new) | [TooltipScanProcessor.cs](RatScanner/Scan/TooltipScanProcessor.cs), [ItemTooltipScan.cs](RatScanner/Scan/ItemTooltipScan.cs) |
 | Item lookups / derived data | [ItemExtensions.cs](RatScanner/ItemExtensions.cs), [Item.cs](RatScanner/TarkovDev/Json/Item.cs) |
 | External data & cache | [TarkovDevAPI.cs](RatScanner/TarkovDevAPI.cs), [ApiManager.cs](RatScanner/ApiManager.cs), [APIClient.cs](RatScanner/APIClient.cs) |
 | Progress tracking API | [TarkovTrackerDB.cs](RatScanner/TarkovTrackerDB.cs) |

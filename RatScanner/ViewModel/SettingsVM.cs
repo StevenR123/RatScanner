@@ -15,8 +15,8 @@ internal class SettingsVM : INotifyPropertyChanged {
 	public bool UseCachedIcons { get; set; }
 	public Hotkey IconScanHotkey { get; set; }
 
-	public bool EnableTextScan { get; set; }
-	public Hotkey TextScanHotkey { get; set; }
+	public bool EnableTooltipScan { get; set; }
+	public Hotkey TooltipScanHotkey { get; set; }
 
 	public string ToolTipDuration { get; set; }
 	public int ToolTipMilli { get; set; }
@@ -74,8 +74,8 @@ internal class SettingsVM : INotifyPropertyChanged {
 		UseCachedIcons = RatConfig.IconScan.UseCachedIcons;
 		IconScanHotkey = RatConfig.IconScan.Hotkey;
 
-		EnableTextScan = RatConfig.TextScan.Enable;
-		TextScanHotkey = RatConfig.TextScan.Hotkey;
+		EnableTooltipScan = RatConfig.TooltipScan.Enable;
+		TooltipScanHotkey = RatConfig.TooltipScan.Hotkey;
 
 		ToolTipDuration = RatConfig.ToolTip.Duration.ToString();
 		ToolTipMilli = RatConfig.ToolTip.Duration;
@@ -131,8 +131,8 @@ internal class SettingsVM : INotifyPropertyChanged {
 		RatConfig.IconScan.UseCachedIcons = UseCachedIcons;
 		RatConfig.IconScan.Hotkey = IconScanHotkey;
 
-		RatConfig.TextScan.Enable = EnableTextScan;
-		RatConfig.TextScan.Hotkey = TextScanHotkey;
+		RatConfig.TooltipScan.Enable = EnableTooltipScan;
+		RatConfig.TooltipScan.Hotkey = TooltipScanHotkey;
 
 		RatConfig.ToolTip.Duration = int.TryParse(ToolTipDuration, out int i) ? i : 0;
 		RatConfig.ToolTip.Duration = ToolTipMilli;

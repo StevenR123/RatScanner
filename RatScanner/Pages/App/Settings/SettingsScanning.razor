@@ -15,6 +15,27 @@
         </MudItem>
         <MudItem xs="12">
             <MudPaper Class="align-center justify-center pa-2 mx-2 mb-2" Elevation="2">
+                <MudStack Spacing="0" Class="pa-0 ma-0">
+                    <MudCheckBox @bind-Checked="@SettingsVM.EnableTooltipScan" Label="@Localizer["EnableTooltipScan"]" Dense="true" Size="Size.Small" Class="pa-0 ma-0"></MudCheckBox>
+                </MudStack>
+            </MudPaper>
+        </MudItem>
+        <MudItem xs="12">
+            <MudPaper Class="align-center justify-center pa-2 mx-2 mb-2" Elevation="2">
+                <MudStack Spacing="0" Justify="Justify.SpaceBetween" AlignItems="AlignItems.Center" Row="true">
+                    <MudItem>
+                        <MudText>
+                            @Localizer["TooltipScanHotkey"]
+                        </MudText>
+                    </MudItem>
+                    <MudItem>
+                        <HotkeySelector Hotkey="@SettingsVM.TooltipScanHotkey"></HotkeySelector>
+                    </MudItem>
+                </MudStack>
+            </MudPaper>
+        </MudItem>
+        <MudItem xs="12">
+            <MudPaper Class="align-center justify-center pa-2 mx-2 mb-2" Elevation="2">
                 <MudGrid Spacing="0" Class="pa-0 ma-0">
                     <MudSelect @bind-Value="@SettingsVM.NameScanLanguage" T="int" Label="@Localizer["NameScanLanguage"]" AnchorOrigin="Origin.BottomCenter" Variant="Variant.Text" Margin="Margin.Dense" Dense="true" Class="mx-1">
                         @foreach (var language in GetLanguages())
@@ -48,27 +69,6 @@
                     </MudItem>
                     <MudItem>
                         <HotkeySelector Hotkey="@SettingsVM.IconScanHotkey"></HotkeySelector>
-                    </MudItem>
-                </MudStack>
-            </MudPaper>
-        </MudItem>
-        <MudItem xs="12">
-            <MudPaper Class="align-center justify-center pa-2 mx-2 mb-2" Elevation="2">
-                <MudStack Spacing="0" Class="pa-0 ma-0">
-                    <MudCheckBox @bind-Checked="@SettingsVM.EnableTextScan" Label="@Localizer["EnableTextScan"]" Dense="true" Size="Size.Small" Class="pa-0 ma-0"></MudCheckBox>
-                </MudStack>
-            </MudPaper>
-        </MudItem>
-        <MudItem xs="12">
-            <MudPaper Class="align-center justify-center pa-2 mx-2 mb-2" Elevation="2">
-                <MudStack Spacing="0" Justify="Justify.SpaceBetween" AlignItems="AlignItems.Center" Row="true">
-                    <MudItem>
-                        <MudText>
-                            @Localizer["TextScanHotkey"]
-                        </MudText>
-                    </MudItem>
-                    <MudItem>
-                        <HotkeySelector Hotkey="@SettingsVM.TextScanHotkey"></HotkeySelector>
                     </MudItem>
                 </MudStack>
             </MudPaper>

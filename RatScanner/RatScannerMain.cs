@@ -47,12 +47,12 @@ public class RatScannerMain : INotifyPropertyChanged {
 	internal static object IconScanLock = new();
 
 	/// <summary>
-	/// Lock for text scanning
+	/// Lock for tooltip scanning
 	/// </summary>
 	/// <remarks>
 	/// Lock order: 2
 	/// </remarks>
-	internal static object TextScanLock = new();
+	internal static object TooltipScanLock = new();
 
 	public TarkovTrackerDB TarkovTrackerDB;
 
@@ -319,28 +319,54 @@ public class RatScannerMain : INotifyPropertyChanged {
 	}
 
 	/// <summary>
-	/// Perform a text scan at the given position by reading the short name text
-	/// rendered on top of the item cell
+	/// Perform a tooltip scan by reading the item name from the game's hover tooltip,
+	/// which appears above and to the right of the cursor
 	/// </summary>
-	/// <param name="position">Position on the screen at which to perform the scan</param>
-	internal void TextScan(Vector2 position) {
-		lock (TextScanLock) {
-			Logger.LogDebug("Text scanning at: " + position);
+	/// <param name="position">Position of the cursor on the screen</param>
+	internal void TooltipScan(Vector2 position) {
+		lock (TooltipScanLock) {
+			Logger.LogDebug("Tooltip scanning at: " + position);
 
-			int sizeWidth = RatConfig.TextScan.TextWidth;
-			int sizeHeight = RatConfig.TextScan.TextHeight;
+			int sizeWidth = RatConfig.TooltipScan.TextWidth;
+			int sizeHeight = RatConfig.TooltipScan.TextHeight;
 
-			Vector2 screenshotPosition = position - new Vector2(sizeWidth / 2, sizeHeight / 2);
-			Bitmap screenshot = GetScreenshot(screenshotPosition, new Size(sizeWidth, sizeHeight));
+			// The tooltip appears to the right of the cursor, so capture a tight
+			// window biased to the right (only a small margin extends left of the cursor).
+			Rectangle bounds = Screen.AllScreens.First(screen => screen.Bounds.Contains(position)).Bounds;
+			int leftReach = RatConfig.TooltipScan.TextLeftReach;
 
-			string text = TextScanProcessor.Read(screenshot, RatConfig.NameScan.Language);
+			int left = position.X - leftReach;
+			int right = position.X + (sizeWidth - leftReach);
+			int top = position.Y - sizeHeight;
+			int bottom = position.Y;
+
+			// If the window would run off the right edge, push it left by exactly the
+			// blocked amount. Near the edge the tooltip also shifts left by the same
+			// amount, so it stays inside the shifted window.
+			int overflowRight = right - bounds.Right;
+			if (overflowRight > 0) {
+				left -= overflowRight;
+				right -= overflowRight;
+				Logger.LogDebug($"Tooltip scan shifted left by {overflowRight}px to stay on screen");
+			}
+
+			// Clamp to the screen containing the cursor
+			left = Math.Max(left, bounds.Left);
+			top = Math.Max(top, bounds.Top);
+			right = Math.Min(right, bounds.Right);
+			bottom = Math.Min(bottom, bounds.Bottom);
+			if (right <= left || bottom <= top) return;
+
+			Bitmap screenshot = GetScreenshot(new Vector2(left, top), new Size(right - left, bottom - top));
+
+			string text = TooltipScanProcessor.Read(screenshot, RatConfig.NameScan.Language);
 			if (string.IsNullOrWhiteSpace(text)) return;
 
-			var item = TextScanProcessor.FindBestMatch(text, RatConfig.TextScan.MinConfidence, out float confidence);
+			var item = TooltipScanProcessor.FindBestMatch(text, RatConfig.TooltipScan.MinConfidence, out float confidence);
 			if (item == null) return;
 
-			ItemTextScan tempTextScan = new(item, confidence, position, RatConfig.ToolTip.Duration);
-			ItemScans.Enqueue(tempTextScan);
+			ItemTooltipScan tempTooltipScan = new(item, confidence, position, RatConfig.ToolTip.Duration);
+			ItemScans.Enqueue(tempTooltipScan);
 			RefreshOverlay();
 		}
 	}

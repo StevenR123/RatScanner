@@ -72,12 +72,13 @@ internal static class RatConfig {
 		internal static bool UseCachedIcons = true;
 	}
 
-	// Text Scan options
-	internal static class TextScan {
+	// Tooltip Scan options
+	internal static class TooltipScan {
 		internal static bool Enable = true;
 		internal static Hotkey Hotkey = new(new[] { Key.LeftCtrl, Key.V }.ToList());
-		internal static int TextWidth => (int)(160 * GameScale);
-		internal static int TextHeight => (int)(36 * GameScale);
+		internal static int TextWidth => (int)(340 * GameScale);
+		internal static int TextHeight => (int)(60 * GameScale);
+		internal static int TextLeftReach => (int)(40 * GameScale);
 		internal static float MinConfidence = 0.65f;
 	}
 
@@ -210,9 +211,9 @@ internal static class RatConfig {
 		IconScan.Hotkey = config.ReadHotkey(nameof(IconScan.Hotkey), IconScan.Hotkey);
 		IconScan.UseCachedIcons = config.ReadBool(nameof(IconScan.UseCachedIcons), IconScan.UseCachedIcons);
 
-		config.Section = nameof(TextScan);
-		TextScan.Enable = config.ReadBool(nameof(TextScan.Enable), TextScan.Enable);
-		TextScan.Hotkey = config.ReadHotkey(nameof(TextScan.Hotkey), TextScan.Hotkey);
+		config.Section = nameof(TooltipScan);
+		TooltipScan.Enable = config.ReadBool(nameof(TooltipScan.Enable), TooltipScan.Enable);
+		TooltipScan.Hotkey = config.ReadHotkey(nameof(TooltipScan.Hotkey), TooltipScan.Hotkey);
 
 		config.Section = nameof(ToolTip);
 		ToolTip.Duration = config.ReadInt(nameof(ToolTip.Duration), ToolTip.Duration);
@@ -283,9 +284,9 @@ internal static class RatConfig {
 		config.WriteHotkey(nameof(IconScan.Hotkey), IconScan.Hotkey);
 		config.WriteBool(nameof(IconScan.UseCachedIcons), IconScan.UseCachedIcons);
 
-		config.Section = nameof(TextScan);
-		config.WriteBool(nameof(TextScan.Enable), TextScan.Enable);
-		config.WriteHotkey(nameof(TextScan.Hotkey), TextScan.Hotkey);
+		config.Section = nameof(TooltipScan);
+		config.WriteBool(nameof(TooltipScan.Enable), TooltipScan.Enable);
+		config.WriteHotkey(nameof(TooltipScan.Hotkey), TooltipScan.Hotkey);
 
 		config.Section = nameof(ToolTip);
 		config.WriteInt(nameof(ToolTip.Duration), ToolTip.Duration);

@@ -4,10 +4,10 @@ using System;
 
 namespace RatScanner.Scan;
 
-public class ItemTextScan : ItemScan {
+public class ItemTooltipScan : ItemScan {
 	private readonly Vector2 _toolTipPosition;
 
-	public ItemTextScan(Item item, float confidence, Vector2 toolTipPosition, int duration) {
+	public ItemTooltipScan(Item item, float confidence, Vector2 toolTipPosition, int duration) {
 		Item = item;
 		Confidence = confidence;
 		IconPath = item.BaseImageLink ?? item.GridImageLink ?? string.Empty;
