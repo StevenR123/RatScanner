@@ -29,6 +29,10 @@ public class RatScannerMain : INotifyPropertyChanged {
 	private Timer? _marketDBRefreshTimer;
 	private Timer? _tarkovTrackerDBRefreshTimer;
 	private Timer? _scanRefreshTimer;
+	private Timer? _tooltipAutoScanTimer;
+	private Vector2 _tooltipHoverAnchor = new(int.MinValue, int.MinValue);
+	private long _tooltipHoverStartTime;
+	private bool _tooltipScannedThisHover;
 
 	/// <summary>
 	/// Lock for name scanning
@@ -118,6 +122,7 @@ public class RatScannerMain : INotifyPropertyChanged {
 			Logger.LogInfo("Setting up timer routines...");
 			_tarkovTrackerDBRefreshTimer = new Timer(RefreshTarkovTrackerDB, null, RatConfig.Tracking.TarkovTracker.RefreshTime, Timeout.Infinite);
 			_scanRefreshTimer = new Timer(RefreshOverlay, null, 1000, 100);
+			_tooltipAutoScanTimer = new Timer(AutoTooltipScan, null, RatConfig.TooltipScan.AutoScanInterval, Timeout.Infinite);
 
 			Logger.LogInfo("Enabling hotkeys...");
 			HotkeyManager.RegisterHotkeys();
@@ -392,6 +397,33 @@ public class RatScannerMain : INotifyPropertyChanged {
 	}
 	private void RefreshOverlay(object? o = null) {
 		OnPropertyChanged();
+	}
+
+	/// <summary>
+	/// Periodically checks whether the cursor has hovered over an item long enough
+	/// for the game's tooltip to appear, then scans it automatically.
+	/// </summary>
+	private void AutoTooltipScan(object? _ = null) {
+		try {
+			if (!RatConfig.TooltipScan.Enable || !RatConfig.TooltipScan.EnableAuto) return;
+
+			Vector2 cursor = UserActivityHelper.GetMousePosition();
+			bool moved = Math.Abs(cursor.X - _tooltipHoverAnchor.X) > 4 || Math.Abs(cursor.Y - _tooltipHoverAnchor.Y) > 4;
+			long now = DateTimeOffset.Now.ToUnixTimeMilliseconds();
+
+			if (moved) {
+				_tooltipHoverAnchor = cursor;
+				_tooltipHoverStartTime = now;
+				_tooltipScannedThisHover = false;
+			} else if (!_tooltipScannedThisHover && now - _tooltipHoverStartTime >= RatConfig.TooltipScan.HoverDelay) {
+				_tooltipScannedThisHover = true;
+				TooltipScan(cursor);
+			}
+		} catch (Exception e) {
+			Logger.LogWarning("Auto tooltip scan failed", e);
+		} finally {
+			_tooltipAutoScanTimer?.Change(RatConfig.TooltipScan.AutoScanInterval, Timeout.Infinite);
+		}
 	}
 
 	protected virtual void OnPropertyChanged(string propertyName = null) {

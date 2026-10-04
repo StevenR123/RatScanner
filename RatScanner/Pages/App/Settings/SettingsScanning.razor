@@ -17,6 +17,7 @@
             <MudPaper Class="align-center justify-center pa-2 mx-2 mb-2" Elevation="2">
                 <MudStack Spacing="0" Class="pa-0 ma-0">
                     <MudCheckBox @bind-Checked="@SettingsVM.EnableTooltipScan" Label="@Localizer["EnableTooltipScan"]" Dense="true" Size="Size.Small" Class="pa-0 ma-0"></MudCheckBox>
+                    <MudCheckBox @bind-Checked="@SettingsVM.EnableAutoTooltipScan" Label="@Localizer["AutomaticTooltipScan"]" Dense="true" Size="Size.Small" Class="pa-0 ma-0"></MudCheckBox>
                 </MudStack>
             </MudPaper>
         </MudItem>

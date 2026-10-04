@@ -27,6 +27,7 @@
   "UseCachedIcons": "Use Cached Icons",
   "IconScanHotkey": "Icon Scan Hotkey",
   "EnableTooltipScan": "Enable Tooltip Scan",
+  "AutomaticTooltipScan": "Automatic Tooltip Scan",
   "TooltipScanHotkey": "Tooltip Scan Hotkey",
   "OverlaySettingsTitle": "Overlay Settings",
   "EnableSearchOverlay": "Enable Search Overlay",

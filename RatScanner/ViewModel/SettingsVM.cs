@@ -16,6 +16,7 @@ internal class SettingsVM : INotifyPropertyChanged {
 	public Hotkey IconScanHotkey { get; set; }
 
 	public bool EnableTooltipScan { get; set; }
+	public bool EnableAutoTooltipScan { get; set; }
 	public Hotkey TooltipScanHotkey { get; set; }
 
 	public string ToolTipDuration { get; set; }
@@ -75,6 +76,7 @@ internal class SettingsVM : INotifyPropertyChanged {
 		IconScanHotkey = RatConfig.IconScan.Hotkey;
 
 		EnableTooltipScan = RatConfig.TooltipScan.Enable;
+		EnableAutoTooltipScan = RatConfig.TooltipScan.EnableAuto;
 		TooltipScanHotkey = RatConfig.TooltipScan.Hotkey;
 
 		ToolTipDuration = RatConfig.ToolTip.Duration.ToString();
@@ -132,6 +134,7 @@ internal class SettingsVM : INotifyPropertyChanged {
 		RatConfig.IconScan.Hotkey = IconScanHotkey;
 
 		RatConfig.TooltipScan.Enable = EnableTooltipScan;
+		RatConfig.TooltipScan.EnableAuto = EnableAutoTooltipScan;
 		RatConfig.TooltipScan.Hotkey = TooltipScanHotkey;
 
 		RatConfig.ToolTip.Duration = int.TryParse(ToolTipDuration, out int i) ? i : 0;

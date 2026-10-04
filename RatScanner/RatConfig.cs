@@ -75,6 +75,9 @@ internal static class RatConfig {
 	// Tooltip Scan options
 	internal static class TooltipScan {
 		internal static bool Enable = true;
+		internal static bool EnableAuto = true;
+		internal static int AutoScanInterval = 300;
+		internal static int HoverDelay = 500;
 		internal static Hotkey Hotkey = new(new[] { Key.LeftCtrl, Key.V }.ToList());
 		internal static int TextWidth => (int)(340 * GameScale);
 		internal static int TextHeight => (int)(60 * GameScale);
@@ -213,6 +216,7 @@ internal static class RatConfig {
 
 		config.Section = nameof(TooltipScan);
 		TooltipScan.Enable = config.ReadBool(nameof(TooltipScan.Enable), TooltipScan.Enable);
+		TooltipScan.EnableAuto = config.ReadBool(nameof(TooltipScan.EnableAuto), TooltipScan.EnableAuto);
 		TooltipScan.Hotkey = config.ReadHotkey(nameof(TooltipScan.Hotkey), TooltipScan.Hotkey);
 
 		config.Section = nameof(ToolTip);
@@ -286,6 +290,7 @@ internal static class RatConfig {
 
 		config.Section = nameof(TooltipScan);
 		config.WriteBool(nameof(TooltipScan.Enable), TooltipScan.Enable);
+		config.WriteBool(nameof(TooltipScan.EnableAuto), TooltipScan.EnableAuto);
 		config.WriteHotkey(nameof(TooltipScan.Hotkey), TooltipScan.Hotkey);
 
 		config.Section = nameof(ToolTip);

@@ -9,7 +9,7 @@
 	<MudLayout>
 		<MudAppBar Elevation="1" Bottom="false" Dense="true">
 			<MudIconButton Icon="@Icons.Material.Filled.Menu" Color="Color.Inherit" Edge="Edge.Start" OnClick="@ToggleDrawer"/>
-			RatScanner
+			Hat Scanner
 			<MudSpacer/>
 			<MudIconButton Icon="@Icons.Custom.Brands.GitHub" Color="Color.Inherit" Edge="Edge.End" OnClick="@(() => OpenURL(MenuVM.GithubLink))"/>
 			<MudIconButton Icon="@Constants.Icon.Discord" Edge="Edge.End" OnClick="@(() => OpenURL(MenuVM.DiscordLink))" Style="color: #5865f2"/>
@@ -20,7 +20,7 @@
 				<div>
 					<img src="RatLogoMedium.png" width="20%" style="vertical-align: middle;"/>
 					<span style="font-size: 150%; vertical-align: bottom;">
-						Rat Scanner
+						Hat Scanner
 						<span style="font-size: 50%;">
 							<text>v</text>@MenuVM.GetType().Assembly.GetName().Version.ToString(3)
 						</span>

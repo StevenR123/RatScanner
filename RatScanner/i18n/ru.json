@@ -27,6 +27,7 @@
   "UseCachedIcons": "Использовать кэш иконок",
   "IconScanHotkey": "Горячая клавиша сканера иконок",
   "EnableTooltipScan": "Enable Tooltip Scan",
+  "AutomaticTooltipScan": "Automatic Tooltip Scan",
   "TooltipScanHotkey": "Tooltip Scan Hotkey",
   "OverlaySettingsTitle": "Настройки оверлея",
   "EnableSearchOverlay": "Включить оверлей поиска",

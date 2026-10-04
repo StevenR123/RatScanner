@@ -27,6 +27,7 @@
   "UseCachedIcons": "Usar iconos en caché",
   "IconScanHotkey": "Atajo del escaneo de iconos",
   "EnableTooltipScan": "Enable Tooltip Scan",
+  "AutomaticTooltipScan": "Automatic Tooltip Scan",
   "TooltipScanHotkey": "Tooltip Scan Hotkey",
   "OverlaySettingsTitle": "Configuración de superposición",
   "EnableSearchOverlay": "Activar superposición de búsqueda",
